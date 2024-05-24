@@ -30,6 +30,12 @@ Image::Image(std::string_view fileName)
 	}
 }
 
+Image::~Image()
+{
+	// Deallocates the memory held by 'm_data'
+	stbi_image_free(m_data);
+}
+
 bool Image::read()
 {
 	// The location of input image, as a string

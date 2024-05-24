@@ -10,6 +10,7 @@ class Image
 {
 public:
 	explicit Image(std::string_view fileName);
+	~Image();
 
 	bool read();
 
