@@ -9,10 +9,26 @@
 #pragma warning(pop)
 
 #include "image.h"
+#include <iostream>
 
 Image::Image(std::string_view fileName)
 	: m_fileName {fileName}
+	, m_isValid {read()}
 {
+	std::cerr << (m_isValid ? "Read \"" : "Failed to read \"") << m_fileName << "\"\n";
 
+
+
+	// m_directory = Directories::input / m_fileName;
 }
 
+bool Image::read()
+{
+	// The location of input image, as a string
+	const auto inputImage {Directories::input.string() + m_fileName};
+
+	// Attempt to read the image 
+	m_data = stbi_load(inputImage.c_str(), &m_width, &m_height, &m_channels, 0);
+
+	return m_data != nullptr;
+}

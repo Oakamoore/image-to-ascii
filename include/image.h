@@ -11,6 +11,8 @@ class Image
 public:
 	explicit Image(std::string_view fileName);
 
+	bool read();
+
 private:
 	std::string m_fileName {};
 	std::filesystem::path m_directory {};
@@ -19,6 +21,7 @@ private:
 	int m_width {};
 	int m_height {};
 	int m_channels {};
+	bool m_isValid {};
 
 };
 
