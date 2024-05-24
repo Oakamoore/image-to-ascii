@@ -5,6 +5,8 @@
 bin/
 build/
 out/
+input/
+output/
 
 # Visual Studio Solution and Project files
 *.vcxproj
