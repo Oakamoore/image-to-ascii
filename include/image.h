@@ -13,6 +13,11 @@ public:
 	~Image();
 
 	bool read();
+	void write(std::string_view imageName); 
+
+	const std::string& getFileName() { return m_fileName; }
+
+	// Don't forget to delete copy assignment, and move assignment operators
 
 private:
 	std::string m_fileName {};

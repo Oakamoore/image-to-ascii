@@ -15,8 +15,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 		assert(!std::filesystem::create_directory(directory));
 	}
 
-	Image image1 {"sample.png"};
-	Image image2 {"another_sample.png"};
+	Image image1 {"first.png"};
+	image1.write(image1.getFileName());
+
+	Image image2 {"second.jpeg"};
+	image2.write(image2.getFileName());
 
 	return 0;
 }

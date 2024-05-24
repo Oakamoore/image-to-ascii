@@ -14,8 +14,7 @@ namespace Directories
 	inline const std::filesystem::path input {"./input/"};
 	inline const std::filesystem::path output {"./output/"};
 
-	// Array of the base directories 
-	const std::array<std::filesystem::path, numDirectories> directories {input, output};
+	inline const std::array<std::filesystem::path, numDirectories> directories {input, output};
 }
 
 #endif
