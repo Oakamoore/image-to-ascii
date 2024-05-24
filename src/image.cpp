@@ -17,9 +17,17 @@ Image::Image(std::string_view fileName)
 {
 	std::cerr << (m_isValid ? "Read \"" : "Failed to read \"") << m_fileName << "\"\n";
 
+	if (m_isValid)
+	{
+		// Removes the file extension from the image name: "image.png" -> "image"
+		m_directory = static_cast<std::filesystem::path>(m_fileName).replace_extension();
 
+		// Prepends the './output/' directory 
+		m_directory = Directories::output / m_directory;
 
-	// m_directory = Directories::input / m_fileName;
+		// Creates a new directory named after the image 
+		std::filesystem::create_directory(m_directory);
+	}
 }
 
 bool Image::read()

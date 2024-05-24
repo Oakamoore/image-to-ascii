@@ -16,10 +16,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 	}
 
 	Image image1 {"sample.png"};
-	Image image2 {"test.png"};
-	Image image3 {"image.png"};
-	Image image5 {"another_sample.png"};
-	Image image4 {"picture.png"};
+	Image image2 {"another_sample.png"};
 
 	return 0;
 }
