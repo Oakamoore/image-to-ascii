@@ -12,12 +12,14 @@ class Image
 public:
 	explicit Image(std::string_view fileName);
 	Image(const Image& image);
+	Image(Image&& image) noexcept;
 	~Image();
 
 	bool read(std::string_view fileName);
 	void write(std::string_view suffix); 
 
 	Image operator=(const Image& image) = delete;
+	Image operator=(Image&& image) = delete;
 
 private:
 	std::string m_source {};				// Source image name without file extension
