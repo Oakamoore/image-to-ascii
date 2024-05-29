@@ -11,15 +11,16 @@ class Image
 {
 public:
 	explicit Image(std::string_view fileName);
+	Image(const Image& image);
 	~Image();
 
 	bool read(std::string_view fileName);
-	void write(std::string_view imageName); 
+	void write(std::string_view suffix); 
 
-	// Don't forget to delete copy assignment, and move assignment operators
+	Image operator=(const Image& image) = delete;
 
 private:
-	std::string m_sourceName {};			// Source image name without file extension
+	std::string m_source {};				// Source image name without file extension
 	std::filesystem::path m_directory {};	// Output directory, based on source image name
 	std::uint8_t* m_data {};
 	std::size_t m_size {};

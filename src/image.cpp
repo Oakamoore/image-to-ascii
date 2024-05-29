@@ -10,6 +10,7 @@
 
 #include "image.h"
 #include <iostream>
+#include <algorithm>
 
 Image::Image(std::string_view fileName)
 	: m_isValid {read(fileName)}
@@ -18,10 +19,12 @@ Image::Image(std::string_view fileName)
 
 	if (m_isValid)
 	{
+		m_size = static_cast<std::size_t>(m_width * m_height * m_channels);
+
 		// Removes the file extension from the image name: "image.png" -> "image"
 		m_directory = static_cast<std::filesystem::path>(fileName).replace_extension();
 
-		m_sourceName = m_directory.string();
+		m_source = m_directory.string();
 
 		// Prepends the './output/' directory 
 		m_directory = (Directories::output / m_directory).string() + '/';
@@ -29,6 +32,23 @@ Image::Image(std::string_view fileName)
 		// Creates a new directory named after the image 
 		std::filesystem::create_directory(m_directory);
 	}
+}
+
+Image::Image(const Image& image)
+	: m_source {image.m_source}
+	, m_directory {image.m_directory}
+	, m_width {image.m_width}
+	, m_height {image.m_height}
+	, m_channels {image.m_channels}
+	, m_isValid {image.m_isValid}
+{
+	m_size = static_cast<std::size_t>(m_width * m_height * m_channels);
+
+	// Allocate a buffer equal to the size of the image 
+	m_data = new std::uint8_t[m_size];
+	
+	// Perform a deep copy of the image data
+	std::copy(&image.m_data[0], &image.m_data[image.m_size], m_data);
 }
 
 Image::~Image()
@@ -39,7 +59,7 @@ Image::~Image()
 
 bool Image::read(std::string_view fileName)
 {
-	const auto inputImage {Directories::input.string() + static_cast<std::string>(fileName)};
+	const auto inputImage {Directories::input.string() + fileName.data()};
 
 	// Attempt to read the image 
 	m_data = stbi_load(inputImage.c_str(), &m_width, &m_height, &m_channels, 0);
@@ -47,15 +67,10 @@ bool Image::read(std::string_view fileName)
 	return m_data != nullptr;
 }
 
-void Image::write(std::string_view imageName)
+void Image::write(std::string_view suffix)
 {
-	// Only valid 'Image' objects can be 
-	// used to create an output image
-	if (!m_isValid)
-		return;
-	
 	// Ouput images default to '.png'
-	const auto outputImage {m_directory.string() + static_cast<std::string>(imageName) + ".png"};
+	const auto outputImage {m_directory.string() + m_source + suffix.data() + ".png"};
 
 	int hasWritten {stbi_write_png(outputImage.c_str(), m_width, m_height, m_channels, m_data, m_width * m_channels)};
 
