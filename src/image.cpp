@@ -12,15 +12,16 @@
 #include <iostream>
 
 Image::Image(std::string_view fileName)
-	: m_fileName {fileName}
-	, m_isValid {read()}
+	: m_isValid {read(fileName)}
 {
-	std::cerr << (m_isValid ? "Read \"" : "Failed to read \"") << m_fileName << "\"\n";
+	std::cerr << (m_isValid ? "Read \"" : "Failed to read \"") << fileName << "\"\n";
 
 	if (m_isValid)
 	{
 		// Removes the file extension from the image name: "image.png" -> "image"
-		m_directory = static_cast<std::filesystem::path>(m_fileName).replace_extension();
+		m_directory = static_cast<std::filesystem::path>(fileName).replace_extension();
+
+		m_sourceName = m_directory.string();
 
 		// Prepends the './output/' directory 
 		m_directory = (Directories::output / m_directory).string() + '/';
@@ -36,9 +37,9 @@ Image::~Image()
 	stbi_image_free(m_data);
 }
 
-bool Image::read()
+bool Image::read(std::string_view fileName)
 {
-	const auto inputImage {Directories::input.string() + m_fileName};
+	const auto inputImage {Directories::input.string() + static_cast<std::string>(fileName)};
 
 	// Attempt to read the image 
 	m_data = stbi_load(inputImage.c_str(), &m_width, &m_height, &m_channels, 0);
@@ -52,11 +53,6 @@ void Image::write(std::string_view imageName)
 	// used to create an output image
 	if (!m_isValid)
 		return;
-	
-	auto trimPos {imageName.find_last_of('.')};
-
-	// Strips the file extension (regardless of type)
-	imageName.remove_suffix(imageName.size() - trimPos);
 	
 	// Ouput images default to '.png'
 	const auto outputImage {m_directory.string() + static_cast<std::string>(imageName) + ".png"};
