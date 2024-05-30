@@ -15,28 +15,28 @@
 Image::Image(std::string_view fileName)
 	: m_isValid {read(fileName)}
 {
-	std::cerr << (m_isValid ? "Read \"" : "Failed to read \"") << fileName << "\"\n";
+	std::cout << (m_isValid ? "Read \"" : "Failed to read \"") << fileName << "\"\n";
 
 	if (m_isValid)
 	{
 		m_size = static_cast<std::size_t>(m_width * m_height * m_channels);
 
 		// Remove the file extension from the image name: "image.png" -> "image"
-		m_directory = static_cast<std::filesystem::path>(fileName).replace_extension();
+		m_outputPath = static_cast<std::filesystem::path>(fileName).replace_extension();
 
-		m_source = m_directory.string();
+		m_sourceName = m_outputPath.string();
 
 		// Prepends the './output/' directory 
-		m_directory = (Directories::output / m_directory).string() + '/';
+		m_outputPath = (Directories::output / m_outputPath).string() + '/';
 
 		// Create a new directory named after the image 
-		std::filesystem::create_directory(m_directory);
+		std::filesystem::create_directory(m_outputPath);
 	}
 }
 
 Image::Image(const Image& image)
-	: m_source {image.m_source}
-	, m_directory {image.m_directory}
+	: m_sourceName {image.m_sourceName}
+	, m_outputPath {image.m_outputPath}
 	, m_width {image.m_width}
 	, m_height {image.m_height}
 	, m_channels {image.m_channels}
@@ -52,8 +52,8 @@ Image::Image(const Image& image)
 }
 
 Image::Image(Image&& image) noexcept
-	: m_source {std::move(image.m_source)}
-	, m_directory {std::move(image.m_directory)}
+	: m_sourceName {std::move(image.m_sourceName)}
+	, m_outputPath {std::move(image.m_outputPath)}
 	, m_size {image.m_size}
 	, m_width {image.m_width}
 	, m_height {image.m_height}
@@ -84,19 +84,20 @@ bool Image::read(std::string_view fileName)
 
 void Image::write(std::string_view suffix)
 {
-	static constexpr std::string_view extension {".png"};
+	if (!m_isValid)
+		return;
 
 	// Ouput images default to '.png'
-	const auto outputImage {m_directory.string() + m_source + suffix.data() + extension.data()};
+	static constexpr std::string_view extension {".png"};
 
-	int hasWritten {stbi_write_png(outputImage.c_str(), m_width, m_height, m_channels, m_data, m_width * m_channels)};
+	const auto fileName {m_sourceName + suffix.data() + extension.data()};
 
-	const auto imageName {m_source + suffix.data() + extension.data()};
+	int hasWritten {stbi_write_png((m_outputPath.string() + fileName).c_str(), m_width, m_height, m_channels, m_data, m_width * m_channels)};
 
 	if (hasWritten)
-		std::cout << "Wrote \"" << imageName << "\" to ";
+		std::cout << "Wrote \"" << fileName << "\" to ";
 	else
-		std::cout << "Failed to write \"" << imageName << "\" to ";
+		std::cout << "Failed to write \"" << fileName << "\" to ";
 
-	std::cout << m_directory << '\n';
+	std::cout << m_outputPath << '\n';
 }

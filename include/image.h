@@ -22,8 +22,8 @@ public:
 	Image operator=(Image&& image) = delete;
 
 private:
-	std::string m_source {};				// Source image name without file extension
-	std::filesystem::path m_directory {};	// Output directory, based on source image name
+	std::string m_sourceName {};				
+	std::filesystem::path m_outputPath {};	
 	std::uint8_t* m_data {};
 	std::size_t m_size {};
 	int m_width {};
