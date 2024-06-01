@@ -18,8 +18,14 @@ public:
 	bool read(std::string_view fileName);
 	void write(std::string_view suffix); 
 
-	Image operator=(const Image& image) = delete;
-	Image operator=(Image&& image) = delete;
+	std::uint8_t* data() const { return m_data; }
+	std::size_t size() const { return m_size; }
+	int channels() const { return m_channels; }
+
+	std::uint8_t& operator[](std::size_t index);
+
+	Image operator=(const Image&) = delete;
+	Image operator=(Image&&) = delete;
 
 private:
 	std::string m_sourceName {};				

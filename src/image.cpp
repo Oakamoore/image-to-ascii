@@ -11,6 +11,7 @@
 #include "image.h"
 #include <iostream>
 #include <algorithm>
+#include <cassert>
 
 Image::Image(std::string_view fileName)
 	: m_isValid {read(fileName)}
@@ -100,4 +101,11 @@ void Image::write(std::string_view suffix)
 		std::cout << "Failed to write \"" << fileName << "\" to ";
 
 	std::cout << m_outputPath << '\n';
+}
+
+std::uint8_t& Image::operator[](std::size_t index)
+{
+	assert(index >= 0 && index < m_size);
+
+	return m_data[index];
 }
