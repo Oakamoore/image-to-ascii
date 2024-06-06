@@ -35,11 +35,11 @@ Image::Image(std::string_view fileName)
 	}
 }
 
-Image::Image(const Image& image)
+Image::Image(int width, int height, const Image& image)
 	: m_sourceName {image.m_sourceName}
 	, m_outputPath {image.m_outputPath}
-	, m_width {image.m_width}
-	, m_height {image.m_height}
+	, m_width {width}
+	, m_height {height}
 	, m_channels {image.m_channels}
 	, m_isValid {image.m_isValid}
 {
@@ -47,8 +47,12 @@ Image::Image(const Image& image)
 
 	// Allocate a buffer equal to the size of the image 
 	m_data = new std::uint8_t[m_size];
-	
-	// Perform a deep copy of the image data
+}
+
+Image::Image(const Image& image)
+	: Image {image.m_width, image.m_height, image}
+{
+	// Copy over the image data 
 	std::copy(&image.m_data[0], &image.m_data[image.m_size], m_data);
 }
 
@@ -103,7 +107,7 @@ void Image::write(std::string_view suffix)
 	std::cout << m_outputPath << '\n';
 }
 
-std::uint8_t& Image::operator[](std::size_t index)
+std::uint8_t Image::operator[](std::size_t index) const
 {
 	assert(index >= 0 && index < m_size);
 
