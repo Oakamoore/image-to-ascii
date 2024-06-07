@@ -19,6 +19,8 @@ public:
 	bool read(std::string_view fileName);
 	void write(std::string_view suffix); 
 
+	const std::string getSourceName() const { return m_sourceName; }
+	const std::filesystem::path& getOutputPath() const { return m_outputPath; }
 	std::uint8_t* getData() const { return m_data; }
 	std::size_t getSize() const { return m_size; }
 	int getWidth() const { return m_width; }
