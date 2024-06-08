@@ -6,28 +6,22 @@
 #pragma warning(pop)
 
 #include "image_processing.h"
+#include "util.h"
 #include <algorithm>
 #include <iostream>
 #include <utility>
 #include <fstream>
 
-static constexpr int s_threeChannel {3};
+constexpr int s_threeChannel {3};
 
 namespace ImageProcessing
 {
 	Image resize(const Image& image)
 	{
-		static constexpr float s_scaleFactor {0.15f};
+		// This can't be static if you want to account for different image sizes
+		static constexpr float s_scaleFactor {0.1f};
 
-		auto scale
-		{
-			[&](int value)
-			{
-				return static_cast<int>(value * s_scaleFactor);
-			}
-		};
-
-		Image resizedImage {scale(image.getWidth()), scale(image.getHeight()), image};
+		Image resizedImage {Util::scale(image.getWidth(), s_scaleFactor), Util::scale(image.getHeight(), s_scaleFactor), image};
 
 		const auto originalStride {image.getWidth() * image.getChannels()};
 		const auto resizedStride {resizedImage.getWidth() * resizedImage.getChannels()};
@@ -79,28 +73,16 @@ namespace ImageProcessing
 		static constexpr std::string_view s_density {"$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\" ^ `'. "};
 
 		const auto fileName {image.getSourceName() + "_ascii.txt"};
-		
+
 		std::fstream file {};
-		
+
 		// Open file for writing
 		file.open(image.getOutputPath().string() + fileName, std::ios::out);
 
-		// Maps a value in one range, to an equivalent value in another
-		auto mapValue
-		{
-			[](int value, std::pair<int, int> rangeOne, std::pair<int, int> rangeTwo)
-			{
-				const auto& [a1, a2] { rangeOne };
-				const auto& [b1, b2] { rangeTwo };
-
-				return ((value - a1) * (b2 - b1)) / (a2 - a1) + b1;
-			}
-		};
-
 		const int length {static_cast<int>(s_density.size())};
-		
-		std::pair<int, int> pixelRange {0, 255};
-		std::pair<int, int> densityRange {0, length - 1};
+
+		auto pixelRange {std::make_pair(0, 255)};
+		auto densityRange {std::make_pair(0, length - 1)};
 		
 		// Flips the range depending on the number of channels an image has
 		// As '.png' and '.jpg', etc.. have better outputs for different range orientations
@@ -113,7 +95,8 @@ namespace ImageProcessing
 			{
 				const auto pixel {(i * image.getWidth() + j) * image.getChannels()};
 
-				const auto index {static_cast<std::size_t>(mapValue(image[pixel], pixelRange, densityRange))};
+				// Maps a value in one range, to an equivalent value in another
+				const auto index {static_cast<std::size_t>(Util::mapValue(image[pixel], pixelRange, densityRange))};
 
 				file << s_density[index] << ' ';
 			}
@@ -126,15 +109,7 @@ namespace ImageProcessing
 		// Open file for reading
 		file.open(image.getOutputPath().string() + fileName, std::ios::in);
 
-		auto isFileEmpty
-		{
-			[](std::fstream& file)
-			{
-				return file.peek() == std::istream::traits_type::eof();
-			}
-		};
-
-		std::cout << (isFileEmpty(file) ? "Failed to write \"" : "Wrote \"") << fileName;
+		std::cout << (Util::isFileEmpty(file) ? "Failed to write \"" : "Wrote \"") << fileName;
 		std::cout << "\" to " << image.getOutputPath() << '\n';
 		
 		file.close();
