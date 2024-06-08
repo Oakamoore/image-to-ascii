@@ -23,7 +23,7 @@ namespace ImageProcessing
 
 		bool isAboveThreshold {resolutionThreshold < image.getWidth() * image.getHeight()};
 
-		float scaleFactor {isAboveThreshold ? 0.1f : 0.15f};
+		float scaleFactor {isAboveThreshold ? 0.1f : 0.2f};
 
 		Image resizedImage {Util::scale(image.getWidth(), scaleFactor), Util::scale(image.getHeight(), scaleFactor), image};
 
