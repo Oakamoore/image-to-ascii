@@ -52,7 +52,6 @@ Image::Image(int width, int height, const Image& image)
 Image::Image(const Image& image)
 	: Image {image.m_width, image.m_height, image}
 {
-	// Copy over the image data 
 	std::copy(&image.m_data[0], &image.m_data[image.m_size], m_data);
 }
 
