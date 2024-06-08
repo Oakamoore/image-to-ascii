@@ -1,6 +1,6 @@
 # image-to-ascii
 
-[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/Oakamoore/image-to-ascii/blob/main/LICENSE) [![stb_image](https://img.shields.io/badge/stb__image-2.30-orange)](https://github.com/nothings/stb/blob/master/stb_image.h) [![stb_image_write](https://img.shields.io/badge/stb__image__write_-1.16-orange)](https://github.com/nothings/stb/blob/master/stb_image_write.h) [![stb_image_resize2](https://img.shields.io/badge/stb__image__resize2_-2.07-orange)](https://github.com/nothings/stb/blob/master/stb_image_resize2.h) ![Cross Platform](https://img.shields.io/badge/Cross_Platform-blue)
+[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/Oakamoore/image-to-ascii/blob/main/LICENSE) [![stb_image](https://img.shields.io/badge/stb__image-2.29-orange)](https://github.com/nothings/stb/blob/master/stb_image.h) [![stb_image_write](https://img.shields.io/badge/stb__image__write_-1.16-orange)](https://github.com/nothings/stb/blob/master/stb_image_write.h) [![stb_image_resize2](https://img.shields.io/badge/stb__image__resize2_-2.06-orange)](https://github.com/nothings/stb/blob/master/stb_image_resize2.h) ![Cross Platform](https://img.shields.io/badge/Cross_Platform-blue)
 
 ## Overview
 
