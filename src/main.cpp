@@ -1,12 +1,13 @@
 #include "directories.h"
 #include "image.h"
+#include "image_processing.h"
 #include <iostream>
 #include <array>
 #include <cassert>
 
-int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
+int main(int argc, char* argv[])
 {
-	// Creates the base input and output directories 
+	// Create the base input and output directories 
 	for (const auto& directory : Directories::directories)
 	{
 		std::filesystem::create_directory(directory);
@@ -15,11 +16,29 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 		assert(!std::filesystem::create_directory(directory));
 	}
 
-	Image image1 {"first.png"};
-	image1.write("first");
+	if (argc <= 1)
+	{
+		std::cout << "No image(s) provided.";
+		return -1;
+	}
 
-	Image image2 {"second.jpeg"};
-	image2.write("second");
+	// Skip the first command line argument 
+	for (int i {1}; i <= argc; ++i)
+	{
+		Image image {argv[i]};
+
+		if (image.isValid())
+		{
+			Image resizedImage {ImageProcessing::resize(image)};
+
+			Image greyscaleImage {ImageProcessing::greyscale(resizedImage)};
+
+			ImageProcessing::convertToAscii(greyscaleImage);
+
+		}
+
+		std::cout << '\n';
+	}
 
 	return 0;
 }
