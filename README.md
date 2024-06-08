@@ -79,7 +79,7 @@ For subsequent uses the first step can be skipped, so long as the `intput/` dire
 
 #### Secure Functions
 
-MSVC defaults to it's implementation of secure `_s` functions (that are poorly supported).
+MSVC defaults to its implementation of secure `_s` functions (that are poorly supported).
 
 `stb_image_write.h` (as of [this commit](https://github.com/nothings/stb/commit/a5e40739ac096711e6640babdf3038c8203f9978) ) defines `__STDC_LIB_EXT1__` to determine whether or not to use these `_s` functions, though certain versions of Visual Studio require `__STDC_WANT_SECURE_LIB__` to function. 
 
