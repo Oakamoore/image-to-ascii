@@ -18,22 +18,23 @@ namespace ImageProcessing
 {
 	Image resize(const Image& image)
 	{
-		// This can't be static if you want to account for different image sizes
-		static constexpr float s_scaleFactor {0.1f};
+		// Determines the strength of the scale factor
+		static constexpr int resolutionThreshold {1'000'000};
 
-		Image resizedImage {Util::scale(image.getWidth(), s_scaleFactor), Util::scale(image.getHeight(), s_scaleFactor), image};
+		bool isAboveThreshold {resolutionThreshold < image.getWidth() * image.getHeight()};
 
-		const auto originalStride {image.getWidth() * image.getChannels()};
-		const auto resizedStride {resizedImage.getWidth() * resizedImage.getChannels()};
+		float scaleFactor {isAboveThreshold ? 0.1f : 0.15f};
+
+		Image resizedImage {Util::scale(image.getWidth(), scaleFactor), Util::scale(image.getHeight(), scaleFactor), image};
 
 		// Accounts for images with/without an alpha channel
 		stbir_pixel_layout layout {image.getChannels() <= s_threeChannel ? STBIR_RGB : STBIR_RGBA};
 
 		stbir_resize_uint8_linear
 		(
-			image.getData(), image.getWidth(), image.getHeight(), originalStride,
+			image.getData(), image.getWidth(), image.getHeight(), image.getWidth() * image.getChannels(),
 			resizedImage.getData(), resizedImage.getWidth(), resizedImage.getHeight(),
-			resizedStride, layout
+			resizedImage.getWidth() * resizedImage.getChannels(), layout
 		);
 
 		resizedImage.write("_resized");
@@ -72,13 +73,6 @@ namespace ImageProcessing
 		// Represents the brightness of a given pixel
 		static constexpr std::string_view s_density {"$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\" ^ `'. "};
 
-		const auto fileName {image.getSourceName() + "_ascii.txt"};
-
-		std::fstream file {};
-
-		// Open file for writing
-		file.open(image.getOutputPath().string() + fileName, std::ios::out);
-
 		const int length {static_cast<int>(s_density.size())};
 
 		auto pixelRange {std::make_pair(0, 255)};
@@ -88,20 +82,30 @@ namespace ImageProcessing
 		// As '.png' and '.jpg', etc.. have better outputs for different range orientations
 		if (image.getChannels() > s_threeChannel)
 			densityRange = {length - 1, 0};
+		
+		const auto fileName {image.getSourceName() + "_ascii.txt"};
 
-		for (std::size_t i {0}; i < image.getHeight(); ++i)
+		std::fstream file {};
+
+		// Open file for writing
+		file.open(image.getOutputPath().string() + fileName, std::ios::out);
+
+		if (file.is_open())
 		{
-			for (std::size_t j {0}; j < image.getWidth(); ++j)
+			for (std::size_t i {0}; i < image.getHeight(); ++i)
 			{
-				const auto pixel {(i * image.getWidth() + j) * image.getChannels()};
+				for (std::size_t j {0}; j < image.getWidth(); ++j)
+				{
+					const auto pixel {(i * image.getWidth() + j) * image.getChannels()};
 
-				// Maps a value in one range, to an equivalent value in another
-				const auto index {static_cast<std::size_t>(Util::mapValue(image[pixel], pixelRange, densityRange))};
+					// Maps a value in one range, to an equivalent value in another
+					const auto index {static_cast<std::size_t>(Util::mapValue(image[pixel], pixelRange, densityRange))};
 
-				file << s_density[index] << ' ';
+					file << s_density[index] << ' ';
+				}
+
+				file << '\n';
 			}
-			
-			file << '\n';
 		}
 
 		file.close();
@@ -109,9 +113,13 @@ namespace ImageProcessing
 		// Open file for reading
 		file.open(image.getOutputPath().string() + fileName, std::ios::in);
 
-		std::cout << (Util::isFileEmpty(file) ? "Failed to write \"" : "Wrote \"") << fileName;
-		std::cout << "\" to " << image.getOutputPath() << '\n';
-		
+		if (Util::isFileEmpty(file) || !file.is_open())
+			std::cout << "Failed to write \"";
+		else
+			std::cout << "Wrote \"";
+
+		std::cout << fileName << "\" to " << image.getOutputPath() << '\n';
+
 		file.close();
 	}
 }
