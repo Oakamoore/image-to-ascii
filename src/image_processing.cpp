@@ -19,9 +19,9 @@ namespace ImageProcessing
 	Image resize(const Image& image)
 	{
 		// Determines the strength of the scale factor
-		static constexpr int resolutionThreshold {1'000'000};
+		static constexpr int s_resolutionThreshold {1'000'000};
 
-		bool isAboveThreshold {resolutionThreshold < image.getWidth() * image.getHeight()};
+		bool isAboveThreshold {s_resolutionThreshold < image.getWidth() * image.getHeight()};
 
 		float scaleFactor {isAboveThreshold ? 0.1f : 0.2f};
 
