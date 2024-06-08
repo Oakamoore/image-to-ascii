@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
 	}
 
 	// Skip the first command line argument 
-	for (int i {1}; i <= argc; ++i)
+	for (int i {1}; i < argc; ++i)
 	{
 		Image image {argv[i]};
 
@@ -34,7 +34,6 @@ int main(int argc, char* argv[])
 			Image greyscaleImage {ImageProcessing::greyscale(resizedImage)};
 
 			ImageProcessing::convertToAscii(greyscaleImage);
-
 		}
 
 		std::cout << '\n';
