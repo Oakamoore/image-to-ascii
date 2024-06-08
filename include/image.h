@@ -26,6 +26,7 @@ public:
 	int getWidth() const { return m_width; }
 	int getHeight() const { return m_height; }
 	int getChannels() const { return m_channels; }
+	bool isValid() const { return m_isValid; }
 
 	std::uint8_t operator[](std::size_t index) const;
 
