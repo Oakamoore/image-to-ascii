@@ -18,13 +18,13 @@ A command line tool for converting images to ASCII art.
 1. Clone this project
 
 ```shell
-git clone https://github.com/Oakamoore/cli-pong.git
+git clone https://github.com/Oakamoore/image-to-ascii.git
 ```
 
 2. Step into the repository
 
 ```shell
-cd cli-pong
+cd image-to-ascii
 ```
 
 3. Build the project using CMake
