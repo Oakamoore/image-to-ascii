@@ -8,8 +8,8 @@ A command line tool for converting images to ASCII art.
 
 <p float="left">
 <img src="https://github.com/Oakamoore/image-to-ascii/assets/57583938/3e4af5a1-4ef3-44ec-9dd8-bf10e5fa0457" width="200">
-<img src="https://github.com/Oakamoore/image-to-ascii/assets/57583938/eb834756-6652-4467-8e16-8517a97cb704" width="200">
-<img src="https://github.com/Oakamoore/image-to-ascii/assets/57583938/0a93ee3f-011b-47f3-acd4-b7a1009d54e5" width="200">
+<img src="https://github.com/Oakamoore/image-to-ascii/assets/57583938/cacd0242-62b2-4419-a0b0-77c29994fd9b" width="200">
+<img src="https://github.com/Oakamoore/image-to-ascii/assets/57583938/3e497a3f-3e8b-4171-8443-4b26302b060f" width="200">
 <img src="https://github.com/Oakamoore/image-to-ascii/assets/57583938/77d348e1-f575-4b11-af7d-cca551123b22" width="200">
 </p>
 
@@ -52,22 +52,22 @@ Once the project is built, navigate to the newly created build directory, `image
 ./image-to-ascii apple.png banana.png 
 ```
 
-If the arguments provided are valid image names, the output directory will be populated as follows:
+If the arguments provided are valid image names, the `output/` directory will be populated as follows:
 
 ```shell
-## Place images to be converted here
-/input
+# Place images to be converted here
+input/
 	apple.png
 	banana.png
 
 # Creates a directory based on the image's file name
 # Holds the intermediate conversion steps (defaulted to 'png')
-/output	
-	/apple
+output/	
+	apple/
 		apple_resized.png
 		apple_greyscale.png
 		apple_ascii.txt
-	/banana
+	banana/
 		banana_resized.png
 		banana_greyscale.png
 		banana_ascii.txt
