@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.29)
 
-project(image-to-ascii VERSION 1.0 DESCRIPTION "A command line tool for converting image to ASCII art" LANGUAGES CXX)
+project(image-to-ascii VERSION 1.0 DESCRIPTION "A command line tool for converting images to ASCII art" LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
