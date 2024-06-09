@@ -2,7 +2,6 @@
 #include "image.h"
 #include "image_processing.h"
 #include <iostream>
-#include <array>
 #include <cassert>
 
 int main(int argc, char* argv[])
