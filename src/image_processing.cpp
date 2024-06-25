@@ -12,7 +12,7 @@
 #include <utility>
 #include <fstream>
 
-constexpr int s_threeChannel {3};
+constexpr int g_threeChannel {3};
 
 namespace ImageProcessing
 {
@@ -28,7 +28,7 @@ namespace ImageProcessing
 		Image resizedImage {Util::scale(image.getWidth(), scaleFactor), Util::scale(image.getHeight(), scaleFactor), image};
 
 		// Accounts for images with/without an alpha channel
-		stbir_pixel_layout layout {image.getChannels() <= s_threeChannel ? STBIR_RGB : STBIR_RGBA};
+		stbir_pixel_layout layout {image.getChannels() <= g_threeChannel ? STBIR_RGB : STBIR_RGBA};
 
 		stbir_resize_uint8_linear
 		(
@@ -47,7 +47,7 @@ namespace ImageProcessing
 		Image gImage {image};
 
 		// The image isn't already monochrome
-		if (gImage.getChannels() >= s_threeChannel)
+		if (gImage.getChannels() >= g_threeChannel)
 		{
 			for (std::size_t pixel {0}; pixel < gImage.getSize(); pixel += gImage.getChannels())
 			{
@@ -80,7 +80,7 @@ namespace ImageProcessing
 		
 		// Flips the range depending on the number of channels an image has
 		// As '.png' and '.jpg', etc.. have better outputs for different range orientations
-		if (image.getChannels() > s_threeChannel)
+		if (image.getChannels() > g_threeChannel)
 			densityRange = {length - 1, 0};
 		
 		const auto fileName {image.getSourceName() + "_ascii.txt"};
