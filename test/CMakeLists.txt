@@ -21,12 +21,12 @@ target_link_libraries(image-to-ascii-tests
 )
 
 # Creates a directory
-file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/build/tests/Debug/input)
+file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/build/test/Debug/input)
 
 # Copies an image file to a directory
 file(
-	COPY ${CMAKE_SOURCE_DIR}/tests/input/apple.png 
-	DESTINATION ${CMAKE_SOURCE_DIR}/build/tests/Debug/input/
+	COPY ${CMAKE_SOURCE_DIR}/test/input/apple.png 
+	DESTINATION ${CMAKE_SOURCE_DIR}/build/test/Debug/input/
 )
 
 catch_discover_tests(image-to-ascii-tests)
