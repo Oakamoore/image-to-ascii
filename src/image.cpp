@@ -31,7 +31,7 @@ Image::Image(std::string_view fileName)
 		m_outputPath = (Directories::output / m_outputPath).string() + '/';
 
 		// Create a new directory named after the image 
-		std::filesystem::create_directory(m_outputPath);
+		std::filesystem::create_directories(m_outputPath);
 	}
 }
 
