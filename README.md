@@ -78,9 +78,9 @@ For subsequent uses the first step can be skipped, so long as the `intput/` dire
 ## Testing
 [![Catch2](https://img.shields.io/badge/Catch2-3.6.0-orange)](https://github.com/catchorg/Catch2/tree/devel)
 
-Once the project is built, navigate to `image-to-ascii/build/tests/Debug` (where the testing executable is located).
+Once the project is built, navigate to `image-to-ascii/build/test/Debug` (where the testing executable is located).
 
-The `tests/Debug/input/` directory should be populated by a sample image - if this isn't the case, then delete the `image-to-ascii/build/` directory and rebuild the project.
+The `test/Debug/input/` directory should be populated by a sample image - if this isn't the case, then delete the `image-to-ascii/build/` directory and rebuild the project.
 
 Run the test(s) with the following command:
 
