@@ -36,7 +36,7 @@ cmake --build build
 
 ## Usage 
 
-Once the project is built, navigate to the newly created build directory, `image-to-ascii/build/Debug` (where the executable is located). 
+Once the project is built, navigate to the newly created build directory, `image-to-ascii/build/`, and locate the executable.
 
 1. Run the program once, to create the `input/` and `output/` directories (if they do not already exist):
 
@@ -78,9 +78,9 @@ For subsequent uses the first step can be skipped, so long as the `intput/` dire
 ## Testing
 [![Catch2](https://img.shields.io/badge/Catch2-3.6.0-orange)](https://github.com/catchorg/Catch2/tree/devel)
 
-Once the project is built, navigate to `image-to-ascii/build/test/Debug` (where the testing executable is located).
+Once the project is built, navigate to `image-to-ascii/build/test/`, and locate the testing executable.
 
-The `test/Debug/input/` directory should be populated by a sample image - if this isn't the case, then delete the `image-to-ascii/build/` directory and rebuild the project.
+The `test/../input/` directory should be populated by a sample image - if this isn't the case, then delete the `image-to-ascii/build/` directory and rebuild the project.
 
 Run the test(s) with the following command:
 
