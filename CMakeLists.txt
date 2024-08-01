@@ -21,7 +21,12 @@ target_include_directories(image-to-ascii-lib
 	PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lib
 )
 
-add_subdirectory(tests)
+option(ENABLE_TESTING "Enable tests" ON)
+
+if(ENABLE_TESTING)
+	enable_testing()
+	add_subdirectory(tests)
+endif()
 
 add_executable(image-to-ascii 
 	src/main.cpp

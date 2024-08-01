@@ -20,13 +20,11 @@ target_link_libraries(image-to-ascii-tests
 	PRIVATE image-to-ascii-lib
 )
 
-# Creates a directory
-file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/build/tests/Debug/input)
-
-# Copies an image file to a directory
-file(
-	COPY ${CMAKE_SOURCE_DIR}/tests/input/apple.png 
-	DESTINATION ${CMAKE_SOURCE_DIR}/build/tests/Debug/input/
+# Creates a directory, under the appropriate build configuration
+# Copies an image file to the newly created directory
+add_custom_command(TARGET image-to-ascii-tests PRE_BUILD
+	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/build/tests/$<CONFIG>/input
+	COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/tests/input/apple.png ${CMAKE_SOURCE_DIR}/build/tests/$<CONFIG>/input/
 )
 
 catch_discover_tests(image-to-ascii-tests)
