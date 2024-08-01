@@ -27,12 +27,43 @@ git clone https://github.com/Oakamoore/image-to-ascii.git
 cd image-to-ascii
 ```
 
-3. Build the project using CMake
+3. Build the project using [CMake](https://cmake.org/)
 
 ```shell
+# Configure the build
 cmake -S . -B build
+
+# Build project binaries 
 cmake --build build
 ```
+
+### Specifying a Build Configuration
+
+Depending on the type of [CMake generator](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html) being used, a build configuration (`Debug`, `Release` etc.) can be specified as follows:
+
+#### Single Configuration Generator 
+
+```shell
+# Configure a release build
+cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
+
+# Build release binaries
+cmake --build build
+```
+
+#### Multi-Configuration Generator
+
+```shell
+# Configure the build
+cmake -S . -B build 
+
+# Build release binaries
+cmake --build build --config Release
+```
+
+### Disabling Testing
+
+To prevent tests from being built, append `-D ENABLE_TESTING=0` to the build configuration command.
 
 ## Usage 
 
