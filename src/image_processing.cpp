@@ -19,9 +19,9 @@ namespace ImageProcessing
 	Image resize(const Image& image)
 	{
 		// Determines the strength of the scale factor
-		static constexpr int s_resolutionThreshold {1'000'000};
+		constexpr int resolutionThreshold {1'000'000};
 
-		bool isAboveThreshold {s_resolutionThreshold < image.getWidth() * image.getHeight()};
+		bool isAboveThreshold {resolutionThreshold < image.getWidth() * image.getHeight()};
 
 		float scaleFactor {isAboveThreshold ? 0.1f : 0.2f};
 
@@ -71,9 +71,9 @@ namespace ImageProcessing
 	void convertToAscii(const Image& image)
 	{
 		// Represents the brightness of a given pixel
-		static constexpr std::string_view s_density {"$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\" ^ `'. "};
+		constexpr std::string_view density {"$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\" ^ `'. "};
 
-		const int length {static_cast<int>(s_density.size())};
+		const int length {static_cast<int>(density.size())};
 
 		auto pixelRange {std::make_pair(0, 255)};
 		auto densityRange {std::make_pair(0, length - 1)};
@@ -101,7 +101,7 @@ namespace ImageProcessing
 					// Maps a value in one range, to an equivalent value in another
 					const auto index {static_cast<std::size_t>(Util::mapValue(image[pixel], pixelRange, densityRange))};
 
-					file << s_density[index] << ' ';
+					file << density[index] << ' ';
 				}
 
 				file << '\n';
