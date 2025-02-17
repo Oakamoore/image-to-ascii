@@ -8,6 +8,9 @@ out/
 input/
 output/
 
+# vcpkg files
+*vcpkg*
+
 # Visual Studio Solution and Project files
 *.vcxproj
 *.vcxproj.filters
