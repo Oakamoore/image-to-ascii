@@ -41,10 +41,6 @@ cmake --build build
 
 A build configuration (`Debug`, `Release` etc.) can also be [specified](https://gist.github.com/Oakamoore/685838c1b4a4c64a008f5461ac9323b5).
 
-#### Disabling Testing
-
-To prevent tests from being built, append `-D ENABLE_TESTING=0` to the build configuration command.
-
 ## Usage 
 
 Once the project is built, navigate to the newly created build directory, `image-to-ascii/build/`, and locate the executable.
@@ -88,6 +84,8 @@ For subsequent uses the first step can be skipped, so long as the `intput/` dire
 
 ## Testing
 [![Catch2](https://img.shields.io/badge/Catch2-3.6.0-orange)](https://github.com/catchorg/Catch2/tree/devel)
+
+By default, tests are disabled. To build them alongside the program append `-D ENABLE_TESTING=1` to the build configuration command.
 
 Once the project is built, navigate to `image-to-ascii/build/tests/`, and locate the testing executable.
 

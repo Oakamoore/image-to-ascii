@@ -21,7 +21,7 @@ target_include_directories(image-to-ascii-lib
 	PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lib
 )
 
-option(ENABLE_TESTING "Enable tests" ON)
+option(ENABLE_TESTING "Enable tests" OFF)
 
 if(ENABLE_TESTING)
 	enable_testing()
